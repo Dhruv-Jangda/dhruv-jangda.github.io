@@ -1,0 +1,156 @@
+body {
+	font-family: "Poppins", sans-serif;
+}
+
+.sidenav {
+	height: 100%;
+	width: 250px;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #212121;
+	overflow-x: hidden;
+}
+
+.pane-member {
+	padding: 16px 8px 16px 50px;
+	text-decoration: none;
+	font-size: 16px;
+	display: block;
+	color: #b5b5b5;
+}
+
+.caption-img {
+	color: #22e300;
+	text-decoration:none;
+	font-size: 16px;
+	padding: 16px 8px 16px 72px;
+}
+
+.caption-img:hover {
+	opacity: 80%;
+}
+
+.sidenav h1 {
+	color: #fff;
+	margin-top: 0px; 
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center; 
+}
+
+.sidenav b {
+	color: #22e300;
+}
+
+.pane-member:hover {
+	cursor: pointer;
+	color: #fff;
+}
+
+@media screen and (max-height: 450px) {
+  	.sidenav {padding-top: 15px;}
+  	.sidenav a {font-size: 18px;}
+}
+
+.main {
+  	margin-left: 270px; /* Some pixels off the width of the sidenav */
+  	margin-right: 20px;
+  	font-size: 15px; /* Increased text to enable scrolling */
+  	padding: 0px 10px;
+}
+
+.main p, .main ul, .main ol {
+	color: #757575;
+}
+
+.modal-content {
+	background-color: transparent;
+	margin: 15% auto 10% auto; /* 15% from the top, 10% from the bottom and centered */
+	border: none;
+	width: 30%; /* Could be more or less, depending on screen size */
+}
+
+.sidepane-control {
+	color: #22e300;
+	font-size: 35px;
+	border: none;
+	height: 60px;
+  	width: 60px;
+  	border-radius: 30%;
+  	margin-top: -8px;
+  	margin-left: -62px;
+	background-color: #212121;
+}
+
+.sidepane-control:focus {
+	outline: none;
+}
+
+.sidepane-control:hover {
+	cursor: pointer;
+}
+
+.left-symbol {
+	display: block;
+}
+
+.right-symbol {
+	display: none;
+}
+
+.responsive-img {
+	width: 200px;
+	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 50%;
+	border: 3px solid #2f89fc;
+}
+
+.social-icons {
+	font-size: 25px;
+	border: 1px solid #2f89fc;
+	border-radius: 50%;
+	height: 50px;
+  	width: 50px;
+  	background-color: #212121;
+  	color: #fff;
+  	margin-top: 8px;
+}
+
+.social-icons:hover {
+	color: #2f89fc;
+	cursor: pointer;
+}
+
+.social-icons:focus {
+	color: #2f89fc;
+	outline: none;
+}
+
+.adjust-element {
+  	overflow-x:auto;
+}
+
+.repo-links {
+	color: #22e300;
+	border: none;
+	height: 50px;
+  	width: 160px;
+	font-size: 20px;
+	border-radius: 25px;
+	background-color: #212121;
+	border: 2px solid #2f89fc;
+  	margin-top: 4px;
+}
+
+.repo-links:hover {
+	cursor: pointer;
+}
+
+.repo-links:focus {
+	outline: none;
+}

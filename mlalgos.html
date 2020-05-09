@@ -1,0 +1,112 @@
+---
+description : Simple Machine Learning algorithms such as Binary and Multiclass Logistic Regression, Single and Multiple Linear Regression based on the flow of Artificial Neural Network. 
+---
+<!DOCTYPE html>
+<html>
+	<head>
+		{% seo %}
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+		<link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Poppins">
+		<link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel = "stylesheet" href = "./static/style.css">
+	</head>
+
+	<body>
+
+		<div class = "sidenav" id = "sidebar">
+			<h1>Port<b>folio</b></h1>
+			<img src = "./static/images/self.jpg" alt = "Self" class = "responsive-img"></br>
+			<a href = "./index.html" class = "caption-img">Dhruv Jangda</a></br>
+			<button onclick = "location.href = 'https://github.com/dhruv-jangda';" class = "social-icons" style = "margin-left: 50px;"><span class = "fa fa-github"></button>
+			<button onclick = "location.href = 'mailto:djangda@outlook.com';" class = "social-icons"><span class = "fa fa-envelope"></button>
+			<button onclick = "location.href = 'https://www.linkedin.com/in/dhruv-jangda';"class = "social-icons"><span class = "fa fa-linkedin"></button></br></br></br>
+		  	<a href = "./loan.html" class = "pane-member"><span class = "fa fa-bank"></span>&nbsp;&nbsp;&nbsp;Loan Approval</a>
+		  	<a href = "./stock.html" class = "pane-member"><span class = "fa fa-line-chart"></span>&nbsp;&nbsp;&nbsp;Stock Prediction</a>
+		  	<a href = "./mlalgos.html" class = "pane-member" style = "border-radius: 30px; background-color: #2f89fc; color: #fff"><span class = "fa fa-gears"></span>&nbsp;&nbsp;&nbsp;ML Algorithms</a>
+		</div>
+
+		<div class = "main" align = "justify">
+			<button class = "sidepane-control left-symbol" onclick = "collapsePane()"><span class = "fa fa-angle-left"></span></button>
+			<button class = "sidepane-control right-symbol" onclick = "expandPane()"><span class = "fa fa-angle-right"></span></button>
+			<h2>ML Algorthms in ANN Model</h2>
+		  	<p>
+		  		Simple Machine Learning algorithms based on the flow of Artificial Neural Network. The layer(s) used in the algortihms are dense type.
+		  	</p></br>
+
+			<h3>Algorithm Flow</h3>
+			<p>
+				For number of samples <b>m</b>, features <b>n</b> in an input matrix <b>X<sub>mxn</sub></b>, <b>f<sub>act</sub></b> as <em>Activation function</em>, <b>W<sub>1xn</b> as <em>Weight vector</em>, <b>B</b> as <em>Bias</em>, assuming <em>i</em> ranging from <em>1 to m</em> and <em>j</em> ranging from <em>1 to n</em>, an ANN model is governed by:
+				<div class="adjust-element" style="color:#757575;">
+                    \[output:\hat{y_i}=\sum_{j=1}^n z_i\]
+                    \[z_i = (W_{1\times n}). (x_{1\times n}) + B\]
+                    \[cost:J(\hat{Y}, Y)\]
+                </div>	               
+
+				<ol>
+					<li>
+						<b>Forward Propagation</b> - The process by which an ANN produces output is governed by each component neuron. <em>Activation function</em> is one of the factors that changes as an Algorithm changes.
+					</li></br>
+					<li>
+						<b>Cost</b> - An equation to penalize the model and using the penalty to train the model. The cost function is always made such that it should be <u>convex</u> in nature, hence while performing <em>Gradient Descent</em>, the Cost should converge to the <u>global minima</u>. Typically for :
+						<ul>
+							<li>
+								Classification:
+								<div class="adjust-element">
+									\[SVM:J(\hat{Y},Y)=\frac{\lambda}{2}\parallel W\parallel^2 + \sum_{i=1}^m max(0,1-y_i\times\hat{y_i})\]
+				                    \[Others:J(\hat{Y},Y)=\sum_{i=1}^m y_i\times log_e(\hat{y_i})\]
+				                </div>
+							</li>
+							<li>
+								Regression:
+								<div class="adjust-element">
+									\[J(\hat{Y},Y)=\frac{1}{2.m}\sum_{i=1}^m (\hat{y_i}-y_i)^2\]
+				                </div>
+							</li>
+						</ul>
+					</li></br>
+					<li>
+						<b>Backward Progagation</b> - The process of learning and updating the learnable parameters in order to achieve maximum possible accuracy and minimum possible cost(or loss). The whole process is governed by Gradient Descent that minimizes the Cost function by taking specified number of steps to reach a global minima. Gradient Descent is evaluated by chain rule as : 
+						<ul>
+							<li>
+								Weights Gradient :
+								<div class="adjust-element">
+									\[\frac{\partial J(\hat{y_i},y)}{\partial w_j}=\frac{\partial J(\hat{y_i},y)}{\partial \hat{y_i}}\times\frac{\partial \hat{y_i}}{\partial z_i}\times\frac{\partial z_i}{\partial w_j}\]
+				                </div>
+							</li>
+							<li>
+								Bias Gradient :
+								<div class="adjust-element">
+									\[\frac{\partial J(\hat{y_i},y)}{\partial B}=\frac{\partial J(\hat{y_i},y)}{\partial \hat{y_i}}\times\frac{\partial \hat{y_i}}{\partial z_i}\times\frac{\partial z_i}{\partial B}\]
+				                </div>
+							</li>
+						</ul>
+						The dependency comes due to:
+						<div class="adjust-element">
+							\[J=f(\hat{y_i})\]
+							\[\hat{y_i}=f_{activation}(z_i)\]
+							\[z_i=f(w_j,B)\]
+		                </div>
+					</li>
+					<li>
+						<b>Parameters Update</b> - As learnable parameters keep updating to achieve a desired accuracy, the model keeps learning. This is gauged by another hyperparameter - learningRate, that acts as a step(large or small) scaled of the descent to reach the global minima. When kept too large, it bounces back and forth off the global minima, hence always passing forth the global minima. However, when kept too small, it enables many descents to reach the global minima thereby slowing down the learning. Hence the parameter should be adjusted accordingly. The parameters are updated as :
+						<div class="adjust-element">
+							\[W_{new}=W_{old}-\frac{dJ}{dW}\]
+							\[B_{new}=B_{old}-\frac{dJ}{dB}\]
+							<a>where:</a>
+							\[\frac{dJ}{dW}=\sum_{j=1}^n \frac{\partial J(\hat{y_i},y)}{\partial w_j}\]
+		                </div>
+					</li>
+				</ol>
+			</p></br>
+
+			<div align = "center">
+                <button onclick = "location.href = 'https://dhruv-jangda.github.io/MLAlgosANN';" class = "repo-links"><span class = "fa fa-github" style = "color: #fff;"></span>&nbsp;&nbsp;Visit Page</button>
+            </div>
+		</div>
+	</body>
+
+	<script src = "./static/main.js"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>

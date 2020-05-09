@@ -1,0 +1,141 @@
+---
+description : A machine learning classifier with Logistic Regression as a problem solver to predict if a loan will be approved for the applicants based on given data.
+---
+<!DOCTYPE html>
+<html>
+    <head>
+        {% seo %}
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+		<link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Poppins">
+		<link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel = "stylesheet" href = "./static/style.css">
+    </head>
+
+    <body>
+  		  <div class = "sidenav" id = "sidebar">
+	   		    <h1>Port<b>folio</b></h1>
+		  	    <img src = "./static/images/self.jpg" alt = "Self" class = "responsive-img"></br>
+            <a href = "./index.html" class = "caption-img">Dhruv Jangda</a></br>
+			      <button onclick = "location.href = 'https://github.com/dhruv-jangda';" class = "social-icons" style = "margin-left: 50px;"><span class = "fa fa-github"></button>
+			      <button onclick = "location.href = 'mailto:djangda@outlook.com';" class = "social-icons"><span class = "fa fa-envelope"></button>
+			      <button onclick = "location.href = 'https://www.linkedin.com/in/dhruv-jangda';"class = "social-icons"><span class = "fa fa-linkedin"></button></br></br></br>
+		  	    <a href = "./loan.html" class = "pane-member" style = "border-radius: 30px; background-color: #2f89fc; color: #fff"><span class = "fa fa-bank"></span>&nbsp;&nbsp;&nbsp;Loan Approval</a>
+		  	    <a href = "./stock.html" class = "pane-member"><span class = "fa fa-line-chart"></span>&nbsp;&nbsp;&nbsp;Stock Prediction</a>
+		  	    <a href = "./mlalgos.html" class = "pane-member"><span class = "fa fa-gears"></span>&nbsp;&nbsp;&nbsp;ML Algorithms</a>
+		    </div>
+
+		    <div class = "main" align = "justify">
+			    <button class = "sidepane-control left-symbol" onclick = "collapsePane()"><span class = "fa fa-angle-left"></span></button>
+			    <button class = "sidepane-control right-symbol" onclick = "expandPane()"><span class = "fa fa-angle-right"></span></button>
+			    
+                <h2>Loan Approval</h2>
+		  	    <p>
+                A machine learning pipeline with Logistic Regression as a problem solver to predict if a loan will be approved for the applicants based on given data. The input training data is split to training and validation set, where pipeline is fitted with training and evaluated on validation. The best Pipeline Model is used to make predictions over the test data with output as a csv file.
+                </p></br>
+
+                <h3>Approach</h3>
+                <ol>
+                    <li>Fetch raw data.</li>
+                    <li>Data Exploration
+                        <ul style="list-style-type:disc;">
+                            <li>Quantitative Analysis
+                                <ul style="list-style-type:circle;">
+                                    <li>Variable Identification - Identifying variable types to deal each type differently
+                                        <ol>
+                                            <li>Categorical Variables : Columns with defined categories or class. Eg: "male" and "female" in gender. Such columns in raw data : <em>Gender</em>, <em>Married</em>, <em>Dependents</em>, <em>Education</em>, <em>Self_Employed</em>, <em>Credit_History</em>, <em>Property_Area</em>, <em>Loan_Status</em>.</li>
+                                            <li>Continuous Variables : Columns with discrete numbers. Such columns in raw data : <em>ApplicantIncome</em>, <em>CoapplicantIncome</em>, <em>LoanAmount</em>, <em>Loan_Amount_Term</em>.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Distribution Analysis on Continuous variables.
+                                        <ol></br>
+                          	               <div class="adjust-element">
+                                	              <img src = "./static/images/box plots.jpg">
+                                            </div></br>
+                                            <li>Outlier detection in columns ApplicantIncome, LoanAmount and CoapplicantIncome</li>
+                                            <li>Skewness detection:</br></br>
+                                	              <div class="adjust-element">
+                                		              <img src="./static/images/histograms.jpg">
+                                	              </div>                             
+                                  	            <em>Coapplicant Income</em> - right skewed without normal distribution</br>
+                                  	            <em>Applicant Income</em> - slightly right skewed with normal distribution</br>
+                                  	            <em>Loan Amount</em> - slightly right skewed without normal distribution</br>
+                                            </li>
+                                        </ol>
+                                    </li></br>
+                                    <li>Null Detection - Collecting variables(columns) having nulls.</li></br>
+                                </ul>
+                            </li>
+                            <li>Feature Identification - Identifying features that influence the target variable(column) <em>LoanStatus</em>.
+                                <ul style="list-style-type:circle;">
+                                    <li>Categorical-Target variable Graphical Analysis.</li>
+                                    <div class = "adjust-element">
+                        	              <img src="./static/images/loan status dist 1.jpg">
+                        	              <img src="./static/images/loan status dist 2.jpg">
+                        	              <img src="./static/images/loan status dist 3.jpg">
+                                    </div>
+                                    Analysing above graphs, it can be said that applicants with:
+                          	        <ul>
+                            	          <li>credit history</li>
+                            	          <li>less number of dependents</li>
+                            	          <li>better education</li>
+                          	        </ul>
+                                    are more probable to get a loan than their opposites.</br>
+                                    <li>Continuous-Target variable Graphical Analysis.</li>
+                                    <div class = "adjust-element">
+                        	              <img src="./static/images/scatter plot 1.jpg">
+                        	              <img src="./static/images/scatter plot 2.jpg">
+                                    </div>
+                                    <li>Hypothesis Testing : Performed dynamically within the pipeline by ChiSqSelecter</li>
+                                    <li>Correlation : Selecting continuous variables on the basis of being dependent and independent to the target variable</li>
+                                </ul>
+                            </li></br>
+                            <li>Feature Munging - Cleaning up features(columns) to prepare data for further stages.
+                                <ul style="list-style-type:circle;">
+                                    <li>Null Removal</li>
+                                    <li>Outlier Removal</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li></br>
+                    <li>Setting Pipeline Stages
+                        <ul style="list-style-type:disc;">
+                            <li>Feature Extractors - Stage to derive possible new features based on current ones</li>
+                            <li>Problem Solver - Estimator to be as classifier for the problem.</li>
+                        </ul>
+                    </li></br>
+                    <li>Dataset splitting - Splitting data to :
+                        <ul style="list-style-type:disc;">
+                            <li>Training set - To train the pipeline on and to prepare a model ready to work on real data.</li>
+                            <li>Validation set - To evaluate the model made in above step.</li>
+                        </ul></br>
+                    <li>Problem Solver Preparation.
+                        <ul style="list-style-type:disc;">
+                            <li>Setting up Pipeline/Estimator - Preparing Logistic Regression model with feature engineering and selection transformers in a pipeline.</li>
+                            <li>Setting up Parameter grid - Preparing hyperparameter grid for tuning and training the pipeline.</li>
+                            <li>Setting up Evaluator - Preparing an evaluator to evaluate the pipeline based on Validation set prepared above.</li>
+                        </ul></br>
+                    </li>
+                    <li>Hyperparameter tuning using training and validation set and getting the best model by Cross-Validator.</li></br>
+                    <li>Best Model Evaluation.</li></br>
+                    <li>Saving/Showing Results to Repository
+                        <ul style="list-style-type:disc;">
+                            <li>Testing Results.</li>
+                            <li>Evaluation Results.</li>
+                            <li>The best model.</li>
+                        </ul>
+                    </li>
+                </ol></br>
+
+                <h3>Conclusion</h4>
+                <p>
+                    The pipeline with logistic regression model trained on the training set is able to predict the target variable with <b>82%</b> accuracy.
+                </p></br></br>
+
+                <div align = "center">
+                    <button onclick = "location.href = 'https://dhruv-jangda.github.io/Loan-Approval';" class = "repo-links"><span class = "fa fa-github" style = "color: #fff;"></span>&nbsp;&nbsp;Visit Page</button>
+                </div>
+		    </div>
+	  </body>
+
+<script src = "./static/main.js"></script>
+</html>
