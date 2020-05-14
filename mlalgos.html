@@ -90,10 +90,11 @@ description : Simple Machine Learning algorithms from scratch, such as Binary an
 					<li>
 						<b>Parameters Update</b> - As learnable parameters keep updating to achieve a desired accuracy, the model keeps learning. This is gauged by another hyperparameter - learningRate, that acts as a step(large or small) scaled of the descent to reach the global minima. When kept too large, it bounces back and forth off the global minima, hence always passing forth the global minima. However, when kept too small, it enables many descents to reach the global minima thereby slowing down the learning. Hence the parameter should be adjusted accordingly. The parameters are updated as :
 						<div class="adjust-element">
-							\[W_{new}=W_{old}-\frac{dJ}{dW}\]
-							\[B_{new}=B_{old}-\frac{dJ}{dB}\]
+							\[W_{new}=W_{old}-\alpha\times \frac{dJ}{dW}\]
+							\[B_{new}=B_{old}-\alpha\times \frac{dJ}{dB}\]
 							<a>where:</a>
 							\[\frac{dJ}{dW}=\sum_{j=1}^n \frac{\partial J(\hat{y_i},y)}{\partial w_j}\]
+							\alpha:learningRate
 		                </div>
 					</li>
 				</ol>
