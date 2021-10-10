@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Loan Approval</title>
+  <meta name="viewport"content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="loan defaults, credit risk assessment, classification, precision, recall, confusion matrix, machine learning">
+  <meta name="description" content="An algortihm to provide real time prediction of loan status to be approved for an applicant thereby
+  preventing cases that are probable to get defaulted.">
+
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Bootstrap CSS File -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">  
+</head>
+
+<body>
+  <!--/ Nav Star /-->
+  <nav class="navbar navbar-b navbar-trans navbar-expand-md fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll" href="#page-top">PortFolio</a>
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
+        aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="navbar-collapse collapse justify-content-end" id="navbarDefault">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#service">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#project">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!--/ Nav End /-->
+
+  <!--/ Intro Skew Star /-->
+  <div class="intro intro-single route bg-image" style="background-image: url(img/overlay-bg.jpg)">
+    <div class="overlay-mf"></div>
+    <div class="intro-content display-table">
+      <div class="table-cell">
+        <div class="container">
+          <h2 class="intro-title mb-4">Loan Approval</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Intro Skew End /-->
+
+  <!--/ Section Blog-Single Star /-->
+  <section class="blog-wrapper sect-pt4" id="blog">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="post-box">
+            <div class="post-thumb">
+              <img src="img/post-1.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="post-meta">
+              <h1 class="article-title">Credit Risk Assessment Model</h1>
+              <ul>
+                <li>
+                  <span class="ion-ios-person"></span>
+                  <a href="#">Dhruv Jangda</a>
+                </li>
+                <li>
+                  <span class="ion-pricetag"></span>
+                  <a href="#">Credit Risk Assessment</a>
+                </li>
+              </ul>
+            </div>
+            <div class="article-content">
+              <p>
+                Design an algortihm to provide real time prediction of loan status to be approved for an applicant thereby
+                preventing cases that are probable to get defaulted.
+              </p></br>
+              <h3>Analysis</h3>
+              <ul>
+                <li>Classic binary classification problem.</li>
+                <li>Emphasis is on:<ul>
+                    <li>Accuracy - We need to have the best possible accuracy</li>
+                    <li>Precision - We need to avoid cases where the algorithm mis-classifies some of the cases where loan was
+                      not approved i.e. False Positives.</li>
+                  </ul>
+                </li>
+              </ul></br>
+              <h3>Alternate Emphasis</h3>
+              <p>As per <em>Confusion Matrix</em> for a Binary Classification problem:</p>
+              <ul>
+                <li>Precision = $\frac{TP}{TP+FP}$</li>
+                <li>Recall = $\frac{TP}{TP+FN}$</li>
+                <li>Accuracy = $\frac{TP+TN}{TP+FP+FN+TN}$</li>
+              </ul>
+              <p>where:</p>
+              <ul>
+                <li>TP - True Positive</li>
+                <li>FP - False Positive</li>
+                <li>FN - False Negative</li>
+                <li>TN - True Negative</li>
+              </ul>              
+              <p>
+                In the given problem, we require to emphasize more on saving the losses to be beared without compromising on
+                potential customers to lend them the loan. In other words, we need to emphasize more on FP without compromising
+                FN.
+              </p>
+              <p>
+                Ideally when FP and FN both reduce the <em>Accuracy</em> will eventually increase. Hence, along with
+                considering <em>Precision</em> as one of the metric, rather than considering <em>Accuracy</em> as another we can
+                give more importance to <em>Recall</em>. Combining both <em>Precision</em> and <em>Recall</em> we have
+                <em>F-Score</em>:
+              </p>
+              <ul>
+                <li>F-Score = $\frac{(1+\beta^2)\times Precision \times Recall}{\beta^2 \times Precision + Recall}$</li>
+              </ul>
+              <p>
+                To put more emphasis on <em>Precision</em> we need to keep $\beta&lt;1$. So, it would make more sense to tune
+                our algorithm based on this score.
+              </p></br>
+              <h3>Solution</h3>
+              <ul>
+                <li>Data Preprocessing:<ul>
+                    <li>Removing or Imputing Nulls</li>
+                    <li>Removing Outliers</li>
+                    <li>Labelling categorical features</li>
+                  </ul>
+                </li>
+                <li>Data distribution to Train and Test sets</li>
+                <li>Build and Train a Classifier.</li>
+                <li>Tune its hyperparameters over $F_\beta$ using Cross-Validation technique. This may involve
+                  trying different classification models or may be combining some in an Ensembled learning format.</li>
+                <li>Finally test it and try indulge some regularization to reduce Variance and Bias.</li>
+              </ul>
+              <div class="service-box">
+                <div class="service-ico">
+                  <a href="https://github.com/Dhruv-Jangda/NotebooksDS/blob/main/Credit_Risk_Assesment.ipynb" class="ico-circle"><i class="ion-social-github"></i></a>
+                </div>
+                <div class="service-content">
+                  <center><h4>More Details</h4></center>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-comments">
+            <div class="title-box-2">
+              <h3 class="title-left">
+                Leave a Reply
+              </h3>
+            </div>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='.';}"></iframe> 
+            <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdMLR2-l5T4j8UNIoulRybRCxaHkyHZnASIG1NxwnVI5OOPrg/formResponse" method="post" target="hidden_iframe" class="form-mf" onsubmit="showMsg()">
+              <div id="sendmessage">Your message has been sent. Thank you!</div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <input type="text" name="entry.564991570" class="form-control input-mf" id="inputName" data-rule="minlen:4" placeholder="Name *" required>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <input type="email" name="entry.1225016317" class="form-control input-mf" id="inputEmail1" data-rule="email" placeholder="Email *" required>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <input type="text" name="entry.895992958" class="form-control input-mf" id="subject" placeholder="Subject *" data-rule="minlen:4"
+                      data-msg="Please mention the article" required>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <textarea id="textMessage" name="entry.906501991" class="form-control input-mf" placeholder="Message *" cols="45" rows="8" required></textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <button type="submit" class="button button-a button-big button-rouded">Send Message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="widget-sidebar">
+            <h5 class="sidebar-title">Recent Post</h5>
+            <div class="sidebar-content">
+              <ul class="list-sidebar">
+                <li>
+                  <a href="loan-approval.html">Loan Approval</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="widget-sidebar">
+            <h5 class="sidebar-title">Archives</h5>
+            <div class="sidebar-content"></div>
+          </div>
+          <div class="widget-sidebar widget-tags">
+            <h5 class="sidebar-title">Tags</h5>
+            <div class="sidebar-content">
+              <ul>
+                <li>
+                  <a href="#">Loan Defaults</a>
+                </li>
+                <li>
+                  <a href="#">Credit Risk Assessment</a>
+                </li>
+                <li>
+                  <a href="#">Classification</a>
+                </li>
+                <li>
+                  <a href="#">Precision</a>
+                </li>
+                <li>
+                  <a href="#">Recall</a>
+                </li>
+                <li>
+                  <a href="#">Confusion Matrix</a>
+                </li>
+                <li>
+                  <a href="#">Machine Learning</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Section Blog-Single End /-->
+
+  <!--/ Section Contact-Footer Star /-->
+  <section class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url(img/overlay-bg.jpg)">
+    <div class="overlay-mf"></div>
+    section>
+  <!--/ Section Contact-footer End /-->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <div id="preloader"></div>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/jquery/jquery-migrate.min.js"></script>
+  <script src="lib/popper/popper.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/counterup/jquery.waypoints.min.js"></script>
+  <script src="lib/counterup/jquery.counterup.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="lib/lightbox/js/lightbox.min.js"></script>
+  <script src="lib/typed/typed.min.js"></script>
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
+
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe"> </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+    init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                }
+            });
+        
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+    </script>
+  <!-- End of mathjax configuration -->
+  <script>
+    function showMsg() {
+      $("#sendmessage").toggleClass("show");
+      window.setTimeout(function() {$("#sendmessage").removeClass("show")}, 3000);
+    }
+    </script>  
+</body>
+</html>
