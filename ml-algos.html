@@ -4,9 +4,8 @@
   <meta charset="utf-8">
   <title>Loan Approval</title>
   <meta name="viewport"content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="loan defaults, credit risk assessment, classification, precision, recall, confusion matrix, machine learning">
-  <meta name="description" content="An algortihm to provide real time prediction of loan status to be approved for an applicant thereby
-  preventing cases that are probable to get defaulted.">
+  <meta name="keywords" content="artifical neural network, forward propagation, backward propagation, deep learning, dense layer">
+  <meta name="description" content="Simple Machine Learning algorithms based on the flow of Artificial Neural Network with Dense layer.">
 
   <!-- Favicons -->
   <link href="img/favicon.png" rel="icon">
@@ -66,7 +65,7 @@
     <div class="intro-content display-table">
       <div class="table-cell">
         <div class="container">
-          <h2 class="intro-title mb-4">Loan Approval</h2>
+          <h2 class="intro-title mb-4">Artifical Neural Network</h2>
         </div>
       </div>
     </div>
@@ -80,10 +79,10 @@
         <div class="col-md-8">
           <div class="post-box">
             <div class="post-thumb">
-              <img src="img/post-1.jpg" class="img-fluid" alt="">
+              <img src="img/post-3.jpg" class="img-fluid" alt="">
             </div>
             <div class="post-meta">
-              <h1 class="article-title">Credit Risk Assessment Model</h1>
+              <h1 class="article-title">ML Algorithms in ANN flow</h1>
               <ul>
                 <li>
                   <span class="ion-ios-person"></span>
@@ -91,74 +90,136 @@
                 </li>
                 <li>
                   <span class="ion-pricetag"></span>
-                  <a href="#">Credit Risk Assessment</a>
+                  <a href="#">ML Algorithms in ANN</a>
                 </li>
               </ul>
             </div>
             <div class="article-content">
               <p>
-                Design an algortihm to provide real time prediction of loan status to be approved for an applicant thereby
-                preventing cases that are probable to get defaulted.
-              </p></br>
-              <h3>Analysis</h3>
-              <ul>
-                <li>Classic binary classification problem.</li>
-                <li>Emphasis is on:<ul>
-                    <li>Accuracy - We need to have the best possible accuracy</li>
-                    <li>Precision - We need to avoid cases where the algorithm mis-classifies some of the cases where loan was
-                      not approved i.e. False Positives.</li>
-                  </ul>
-                </li>
-              </ul></br>
-              <h3>Alternate Emphasis</h3>
-              <p>As per <em>Confusion Matrix</em> for a Binary Classification problem:</p>
-              <ul>
-                <li>Precision = $\frac{TP}{TP+FP}$</li>
-                <li>Recall = $\frac{TP}{TP+FN}$</li>
-                <li>Accuracy = $\frac{TP+TN}{TP+FP+FN+TN}$</li>
-              </ul>
-              <p>where:</p>
-              <ul>
-                <li>TP - True Positive</li>
-                <li>FP - False Positive</li>
-                <li>FN - False Negative</li>
-                <li>TN - True Negative</li>
-              </ul>              
-              <p>
-                In the given problem, we require to emphasize more on saving the losses to be beared without compromising on
-                potential customers to lend them the loan. In other words, we need to emphasize more on FP without compromising
-                FN.
+                Simple Machine Learning algorithms based on the flow of Artificial Neural Network. The layer(s) used in
+                the algortihms are <u>dense</u> type.
               </p>
+              <h3>Overview</h3>
               <p>
-                Ideally when FP and FN both reduce the <em>Accuracy</em> will eventually increase. Hence, along with
-                considering <em>Precision</em> as one of the metric, rather than considering <em>Accuracy</em> as another we can
-                give more importance to <em>Recall</em>. Combining both <em>Precision</em> and <em>Recall</em> we have
-                <em>F-Score</em>:
+                The project is made in Scala purely with Nd4J(equivalent to Numpy in Python), a scientific computing
+                library for the JVM with routines designed to run fast with minimum RAM requirements. It is a typical
+                sbt project.
               </p>
+              <p>Please follow the below steps to setup and use the same:</p>
+              <ol>
+                  <li>Install and setup sbt.</li>
+                  <li>Download or clone the repository.</li>
+                  <li>Open terminal at the downloaded(or cloned) directory.</li>
+                  <li>Command: sbt run and specify the class you want to run.</li>
+              </ol>
+              <p><em>Note</em></p>
               <ul>
-                <li>F-Score = $\frac{(1+\beta^2)\times Precision \times Recall}{\beta^2 \times Precision + Recall}$</li>
+                  <li>
+                    In order to tune an algorithm for a dataset, play around with hyperparameters specified for each
+                    algorithm.
+                  </li>
+                  <li>
+                    It may be required to implement initialization and data transformation techniques for better
+                    results, but the sole purpose of the project is to depict the way algorithms work in an ANN.
+                  </li>
               </ul>
               <p>
-                To put more emphasis on <em>Precision</em> we need to keep $\beta&lt;1$. So, it would make more sense to tune
-                our algorithm based on this score.
-              </p></br>
-              <h3>Solution</h3>
+                Each algorithm designed follows the phases defined below using <em>Vector Algebra</em>,
+                <em>Calculaus</em> and <em>Matrix Manipulations</em>. The core equations remains same but there are
+                derived equations as the algortihm changes.
+              </p>
+              <h3>Algorithm Flow</h3>
+              <p>
+                For number of samples $m$, features $n$ in an input matrix $X_{m\times n}$, $f_{act}$ as <em>Activation
+                function</em>, $W_{1\times n}$ as <em>Weight vector</em>, $B$ as <em>Bias</em>, assuming $i$ ranging
+                from $1$ to $m$ and $j$ ranging from $1$ to $n$, an ANN model is governed by:
+              </p>
               <ul>
-                <li>Data Preprocessing:<ul>
-                    <li>Removing or Imputing Nulls</li>
-                    <li>Removing Outliers</li>
-                    <li>Labelling categorical features</li>
+                  <li>Output: $\hat{y_i}=\sum_{j=1}^n z_i$</li>
+                  <li>$z_i = (W_{1\times n}). (x_{1\times n}) + B$</li>
+                  <li>Cost: $J(\hat{Y}, Y)$</li>
+              </ul>
+              <p>Each algorithm follows the below stages.</p>
+              <h4>Forward Propagation</h4>
+              <p>
+                The process by which an ANN produces output is governed by each component neuron. <em>Activation
+                function</em> is one of the factors that changes as an Algorithm changes.
+              </p>
+              <p>
+                <em>Cost</em> - An equation to penalize the model and using the penalty to train the model. The cost
+                function is always made such that it should be <u>convex</u> in nature, hence while performing
+                <em>Gradient Descent</em>, the Cost should converge to the <em>global minima</em>. Typically for :
+              </p>
+              <ul>
+                <li>
+                  Classification:
+                  <ul>
+                    <li>SVM: $J(\hat{Y},Y)=\frac{\lambda}{2}\parallel W\parallel^2 + \sum_{i=1}^m
+                      max(0,1-y_i\times\hat{y_i})$
+                    </li>
+                    <li>Others: $J(\hat{Y},Y)=\sum_{i=1}^m y_i\times log_e(\hat{y_i})$ </li>
                   </ul>
                 </li>
-                <li>Data distribution to Train and Test sets</li>
-                <li>Build and Train a Classifier.</li>
-                <li>Tune its hyperparameters over $F_\beta$ using Cross-Validation technique. This may involve
-                  trying different classification models or may be combining some in an Ensembled learning format.</li>
-                <li>Finally test it and try indulge some regularization to reduce Variance and Bias.</li>
+                <li>Regression: $J(\hat{Y},Y)=\frac{1}{2\times m}\sum_{i=1}^m (\hat{y_i}-y_i)^2$</li>
+              </ul>
+              <h4>Backward Propagation</h4>
+              <p>
+                The process of learning and updating the learnable parameters in order to achieve maximum possible
+                accuracy and minimum possible cost(or loss). The whole process is governed by <em>Gradient Descent</em>
+                that <em>minimizes the Cost function</em> by taking specified number of steps to reach a global minima.
+                <em>Gradient Descent</em> is evaluated by chain rule as :
+              </p>
+              <ul>
+                <li>
+                    <p>Weights Gradient:</p>
+                    <p>$\frac{\partial J(\hat{y_i},y)}{\partial w_j}=\frac{\partial J(\hat{y_i},y)}{\partial
+                        \hat{y_i}}\times\frac{\partial \hat{y_i}}{\partial z_i}\times\frac{\partial z_i}{\partial w_j}$
+                    </p>
+                </li>
+                <li>
+                    <p>Bias Gradient:</p>
+                    <p>$\frac{\partial J(\hat{y_i},y)}{\partial B}=\frac{\partial J(\hat{y_i},y)}{\partial
+                        \hat{y_i}}\times\frac{\partial \hat{y_i}}{\partial z_i}\times\frac{\partial z_i}{\partial B}$
+                    </p>
+                </li>
+              </ul>
+              <p>The dependency comes due to:</p>
+              <ul>
+                  <li>$J=f(\hat{y_i})$</li>
+                  <li>$\hat{y_i}=f_{act}(z_i)$</li>
+                  <li>$z_i=g(w_j,B)$</li>
+              </ul>
+              <h4>Parameters Update</h4>
+              <p>
+                As learnable parameters keep updating to achieve a desired accuracy, the model keeps learning. This is
+                gauged by another hyperparameter - <em>learningRate</em>, that acts as a step(large or small) scaled of
+                the descent to reach the global minima.
+              </p>
+              <ul>
+                  <li>
+                    When kept too large, it bounces back and forth off the global minima, hence always passing forth the
+                    global minima.
+                  </li>
+                  <li>
+                    When kept too small, it enables many descents to reach the global minima thereby slowing down the
+                    learning. Hence the parameter should be adjusted accordingly.
+                  </li>
+              </ul>
+              <p>The parameters are updated as :</p>
+              <ul>
+                  <li>$W_{new}=W_{old}-\alpha\times \frac{dJ}{dW}$</li>
+                  <li>
+                      <p>$B_{new}=B_{old}-\alpha\times \frac{dJ}{dB}$</p>
+                      <p>where:</p>
+                      <ul>
+                          <li>$\frac{dJ}{dW}=\sum_{j=1}^n \frac{\partial J(\hat{y_i},y)}{\partial w_j}$</li>
+                          <li>$\alpha$ is Learning Rate</li>
+                      </ul>
+                  </li>
               </ul>
               <div class="service-box">
                 <div class="service-ico">
-                  <a href="https://github.com/Dhruv-Jangda/NotebooksDS/blob/main/Credit_Risk_Assesment.ipynb" class="ico-circle"><i class="ion-social-github"></i></a>
+                  <a href="https://github.com/Dhruv-Jangda/MLAlgosANN" class="ico-circle"><i class="ion-social-github"></i></a>
                 </div>
                 <div class="service-content">
                   <center><h4>More Details</h4></center>
@@ -233,26 +294,20 @@
             <div class="sidebar-content">
               <ul>
                 <li>
-                  <a href="https://www.investopedia.com/terms/d/default2.asp">Loan Default</a>
+                  <a href="https://en.wikipedia.org/wiki/Artificial_neural_network">Artifical Neural Network</a>
                 </li>
                 <li>
-                  <a href="https://www.investopedia.com/terms/c/creditrisk.asp">Credit Risk Assessment</a>
+                  <a href="https://towardsdatascience.com/forward-propagation-in-neural-networks-simplified-math-and-code-version-bbcfef6f9250">Forward Propagation</a>
                 </li>
                 <li>
-                  <a href="https://www.analyticsvidhya.com/blog/2021/09/a-complete-guide-to-understand-classification-in-machine-learning/">Classification</a>
+                  <a href="https://www.analyticsvidhya.com/blog/2021/06/how-does-backward-propagation-work-in-neural-networks/">Backward Propagation</a>
                 </li>
                 <li>
-                  <a href="https://towardsdatascience.com/performance-metrics-confusion-matrix-precision-recall-and-f1-score-a8fe076a2262">Precision</a>
+                  <a href="https://machinelearningmastery.com/what-is-deep-learning/">Deep Learning</a>
                 </li>
                 <li>
-                  <a href="https://towardsdatascience.com/performance-metrics-confusion-matrix-precision-recall-and-f1-score-a8fe076a2262">Recall</a>
-                </li>
-                <li>
-                  <a href="https://machinelearningmastery.com/confusion-matrix-machine-learning/">Confusion Matrix</a>
-                </li>
-                <li>
-                  <a href="https://en.wikipedia.org/wiki/Machine_learning">Machine Learning</a>
-                </li>
+                  <a href="https://analyticsindiamag.com/a-complete-understanding-of-dense-layers-in-neural-networks/">Dense Layer</a>
+                </li>                
               </ul>
             </div>
           </div>
