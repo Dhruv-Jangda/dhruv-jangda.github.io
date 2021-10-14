@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Loan Approval</title>
+  <title>Document Classification</title>
   <meta name="viewport"content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="loan defaults, credit risk assessment, classification, precision, recall, confusion matrix, machine learning">
-  <meta name="description" content="An algortihm to provide real time prediction of loan status to be approved for an applicant thereby
-  preventing cases that are probable to get defaulted.">
+  <meta name="keywords" content="document classification, word embeddings, term frequecy, inverse document frequency, one hot encoding, n grams">
+  <meta name="description" content="Document Similarity: Using information from the set of labelled documents to label the unlabelled ones">
 
   <!-- Favicons -->
   <link href="img/favicon.png" rel="icon">
@@ -66,7 +65,7 @@
     <div class="intro-content display-table">
       <div class="table-cell">
         <div class="container">
-          <h2 class="intro-title mb-4">Loan Approval</h2>
+          <h2 class="intro-title mb-4">Document Classification</h2>
         </div>
       </div>
     </div>
@@ -80,10 +79,10 @@
         <div class="col-md-8">
           <div class="post-box">
             <div class="post-thumb">
-              <img src="img/post-1.jpg" class="img-fluid" alt="">
+              <img src="img/post-4.jpg" class="img-fluid" alt="">
             </div>
             <div class="post-meta">
-              <h1 class="article-title">Credit Risk Assessment Model</h1>
+              <h1 class="article-title">Document Classification</h1>
               <ul>
                 <li>
                   <span class="ion-ios-person"></span>
@@ -91,74 +90,111 @@
                 </li>
                 <li>
                   <span class="ion-pricetag"></span>
-                  <a href="#">Credit Risk Assessment</a>
+                  <a href="#">Document Classification</a>
                 </li>
               </ul>
             </div>
             <div class="article-content">
+              <h3>Problem</h3>
               <p>
-                Design an algortihm to provide real time prediction of loan status to be approved for an applicant thereby
-                preventing cases that are probable to get defaulted.
-              </p></br>
-              <h3>Analysis</h3>
-              <ul>
-                <li>Classic binary classification problem.</li>
-                <li>Emphasis is on:<ul>
-                    <li>Accuracy - We need to have the best possible accuracy</li>
-                    <li>Precision - We need to avoid cases where the algorithm mis-classifies some of the cases where loan was
-                      not approved i.e. False Positives.</li>
-                  </ul>
-                </li>
-              </ul></br>
-              <h3>Alternate Emphasis</h3>
-              <p>As per <em>Confusion Matrix</em> for a Binary Classification problem:</p>
-              <ul>
-                <li>Precision = $\frac{TP}{TP+FP}$</li>
-                <li>Recall = $\frac{TP}{TP+FN}$</li>
-                <li>Accuracy = $\frac{TP+TN}{TP+FP+FN+TN}$</li>
-              </ul>
-              <p>where:</p>
-              <ul>
-                <li>TP - True Positive</li>
-                <li>FP - False Positive</li>
-                <li>FN - False Negative</li>
-                <li>TN - True Negative</li>
-              </ul>              
-              <p>
-                In the given problem, we require to emphasize more on saving the losses to be beared without compromising on
-                potential customers to lend them the loan. In other words, we need to emphasize more on FP without compromising
-                FN.
+                Using information from the set of labelled documents(size $n$) to label the unlabelled(size $m$) ones.
               </p>
-              <p>
-                Ideally when FP and FN both reduce the <em>Accuracy</em> will eventually increase. Hence, along with
-                considering <em>Precision</em> as one of the metric, rather than considering <em>Accuracy</em> as another we can
-                give more importance to <em>Recall</em>. Combining both <em>Precision</em> and <em>Recall</em> we have
-                <em>F-Score</em>:
-              </p>
-              <ul>
-                <li>F-Score = $\frac{(1+\beta^2)\times Precision \times Recall}{\beta^2 \times Precision + Recall}$</li>
-              </ul>
-              <p>
-                To put more emphasis on <em>Precision</em> we need to keep $\beta&lt;1$. So, it would make more sense to tune
-                our algorithm based on this score.
-              </p></br>
               <h3>Solution</h3>
-              <ul>
-                <li>Data Preprocessing:<ul>
-                    <li>Removing or Imputing Nulls</li>
-                    <li>Removing Outliers</li>
-                    <li>Labelling categorical features</li>
+              <ol>
+                <li>Build dictionary of words(size: $k$) from the labelled documents.</li>
+                <li>Using the dictionary and one of below techniques, create the vectors of the documents both from labelled and unlabelled set:
+                  <ul>
+                    <li>One hot encoding</li>
+                    <li>Bag of Words</li>
+                    <li>Tf-Idf</li>
+                    <li>Word Embeddings</li>
                   </ul>
                 </li>
-                <li>Data distribution to Train and Test sets</li>
-                <li>Build and Train a Classifier.</li>
-                <li>Tune its hyperparameters over $F_\beta$ using Cross-Validation technique. This may involve
-                  trying different classification models or may be combining some in an Ensembled learning format.</li>
-                <li>Finally test it and try indulge some regularization to reduce Variance and Bias.</li>
+                <li>Then using vectors take one of the approach:
+                  <ul>
+                    <li>Document Similarity:
+                      <ul>
+                        <li>Works with any number of documents.</li>
+                        <li>Compute similarity metric of how each document from labelled set relates to each one from the unlabelled set. 
+                          This is done generaly by <u>cosine similarity</u> and prodces a matrix of size($n \times m$)</li>
+                        <li>Get the index of maximum similarity score which gives the closest document from the unlabelled one to the labelled one. 
+                          Eg: An index [3][7] will depict that the 7th unlabelled document is closest to 3rd labelled document. Hence belongs to the same 
+                          category as the 3rd one.</li>
+                        <li>Assign the category as the closest document belongs to.</li>
+                      </ul>
+                    </li>
+                    <li>Machine Learning:
+                      <ul>
+                        <li>Works with large number of labelled documents, since more number of samples will let the classifier converge better.</li>
+                        <li>Train a classifier on vectors and target variable as the label of the labelled documents.</li>
+                        <li>Use the model on the vectors of unlabelled documents.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ol>
+              <h3>Key Terminology</h3>
+              <h5>N-Grams</h5>
+              <p>Before creating a dictionary and further analysis, a set of words to be used in combination has to be defined. Called 
+                <u>N-Grams</u> where $N$ represents number of words in the set considered.</p>
+              <p>Since now each element in the dictionary formed has n-grams, all further stages will consider these n-grams.</p>
+              <p>Generally n-grams are considered to find a pattern in the text. A use case detecting <em>Plagiarism</em> by applicants 
+                during screening, where different documents are compared and if a pettern is noticed, that raises a flag showing a case of cheating.</p>
+              <h5>Dictionary</h5>
+              <p>Generally the dictioanry is prepared by:</p>
+              <ul>
+                <li>Removing all the words that don't hold semantic information i.e. <em>stopwords</em> such as "a", "the", "is", "was", etc.</li>
+                <li>Removing all special characters.</li>
+                <li>Combining the remaining words.</li>
+                <li>Removing the duplicate words.</li>
               </ul>
+              <p>Now the dictionary prepared is used for further analysis.</p>
+              <h5>Vectorization</h5>
+              <p>A vector is prepared for each document and is of same size as of the dictionary prepared.</p>
+              <ol>
+                <li>One Hot Encoding(OH):
+                  <ul>
+                    <li>Shows the presence(1) or absence(0) of a word or an n-gram from dictionary, in the document.</li>
+                    <li>Each document is represented in binary form. Eg: [1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0]</li>
+                  </ul>
+                </li>
+                <li>Bag of Words(BOW):
+                  <ul>
+                    <li>Shows the number of times the word or an n-gram from dictionary, appeared in the document.</li>
+                    <li>Each document is represented in integral form. Eg: [2, 1, 0, 5, 3, 4, 0, 0, 1, 2, 1, 1, 1, 5]</li>
+                  </ul>
+                </li>
+                <li>Term Frequency: $tf = \frac{n_{matched}}{n_{total}}$ 
+                  <ul>
+                    <li>Where $n_{matched}$ are the number of words in the document present in the dictionary and $n_{total}$ is the number of words in 
+                      the document.</li>
+                    <li>Each document is represented in fractional form. Eg: [0.023, 0.12, 0.543, 0.569]</li>
+                    <li>Depicts an importance of a word from dictonary across the document.</li>
+                  </ul>
+                </li>
+                <li>Intermediate Document Frequency: $idf=\ln{\frac{N_{total}}{N_{matched}}}$
+                  <ul>
+                    <li>Where $N_{total}$ is total number of documents in the corpus and $N_{matched}$ is the total number of documents in the corpus 
+                      that contain the words from the dictionary.</li>
+                    <li>Hence is a vector of size, same as of the dictonary</li>
+                    <li>Depicts an importance of a word from dictionary across the corpus.</li>
+                    <li>Multiplying it with $tf$ gives the complete picture of the importance of the keywords both from the perspective of a document 
+                      and the corpus.</li>
+                    <li>Hence tf-idf saves some amount of semantic information, that was ignored in OH and BOW.</li>
+                  </ul>
+                </li>
+                <li>Embeddings:
+                  <ul>
+                    <li>The best technique to create vectors with the semantic information preserved.</li>
+                    <li>While creating vectors of the document using keywords from dictionary, each keyword is further distributed to another number 
+                      of dimentions $d$ specified.</li>
+                    <li>Due to this a document is converted to a matrix(size: $n \times d$) rather than a vector.</li>
+                  </ul>
+                </li>
+              </ol>
               <div class="service-box">
                 <div class="service-ico">
-                  <a href="https://github.com/Dhruv-Jangda/NotebooksDS/blob/main/Credit_Risk_Assesment.ipynb" class="ico-circle"><i class="ion-social-github"></i></a>
+                  <a href="https://github.com/Dhruv-Jangda/NotebooksDS/blob/main/Document_Classification.ipynb" class="ico-circle"><i class="ion-social-github"></i></a>
                 </div>
                 <div class="service-content">
                   <center><h5>More Details</h5></center>
@@ -236,25 +272,22 @@
             <div class="sidebar-content">
               <ul>
                 <li>
-                  <a href="https://www.investopedia.com/terms/d/default2.asp">Loan Default</a>
+                  <a href="https://en.wikipedia.org/wiki/Document_classification">Document Classification</a>
                 </li>
                 <li>
-                  <a href="https://www.investopedia.com/terms/c/creditrisk.asp">Credit Risk Assessment</a>
+                  <a href="https://machinelearningmastery.com/what-are-word-embeddings/">Word Embeddings</a>
                 </li>
                 <li>
-                  <a href="https://www.analyticsvidhya.com/blog/2021/09/a-complete-guide-to-understand-classification-in-machine-learning/">Classification</a>
+                  <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">Term Frequecy</a>
                 </li>
                 <li>
-                  <a href="https://towardsdatascience.com/performance-metrics-confusion-matrix-precision-recall-and-f1-score-a8fe076a2262">Precision</a>
+                  <a href="https://towardsdatascience.com/tf-term-frequency-idf-inverse-document-frequency-from-scratch-in-python-6c2b61b78558">Inverse Document Frequency</a>
                 </li>
                 <li>
-                  <a href="https://towardsdatascience.com/performance-metrics-confusion-matrix-precision-recall-and-f1-score-a8fe076a2262">Recall</a>
+                  <a href="https://medium.com/analytics-vidhya/one-hot-encoding-of-text-data-in-natural-language-processing-2242fefb2148">One Hot Encoding</a>
                 </li>
                 <li>
-                  <a href="https://machinelearningmastery.com/confusion-matrix-machine-learning/">Confusion Matrix</a>
-                </li>
-                <li>
-                  <a href="https://en.wikipedia.org/wiki/Machine_learning">Machine Learning</a>
+                  <a href="https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058">N grams</a>
                 </li>
               </ul>
             </div>
