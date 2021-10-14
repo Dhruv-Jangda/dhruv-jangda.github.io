@@ -114,6 +114,10 @@ a:hover {
   display: table;
 }
 
+table, th, td {
+  border: 1px solid black;
+}
+
 .table-cell {
   display: table-cell;
   vertical-align: middle;

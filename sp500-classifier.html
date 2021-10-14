@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>S&P500 Model</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="s&p 500, pair trading, technical indicators, time series, exploratory data analysis, relative strength index, 
+    on balance volume, chaikin indicator, support resistance levels, binary classification">
+  <meta name="description" content="Analysis and Quantitative modeling of S&P 500 by creating volatility index, identifying trading pairs and 
+    creating close price high-low classifier">
+
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Bootstrap CSS File -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!--/ Nav Star /-->
+  <nav class="navbar navbar-b navbar-trans navbar-expand-md fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll" href="#page-top">PortFolio</a>
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
+        aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="navbar-collapse collapse justify-content-end" id="navbarDefault">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#service">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#project">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="index.html#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!--/ Nav End /-->
+
+  <!--/ Intro Skew Star /-->
+  <div class="intro intro-single route bg-image" style="background-image: url(img/overlay-bg.jpg)">
+    <div class="overlay-mf"></div>
+    <div class="intro-content display-table">
+      <div class="table-cell">
+        <div class="container">
+          <h2 class="intro-title mb-4">S&P500 Quantitative Model</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Intro Skew End /-->
+
+  <!--/ Section Blog-Single Star /-->
+  <section class="blog-wrapper sect-pt4" id="blog">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="post-box">
+            <div class="post-thumb">
+              <img src="img/post-5.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="post-meta">
+              <h1 class="article-title">S&P500 Analysis and Quantitative Model</h1>
+              <ul>
+                <li>
+                  <span class="ion-ios-person"></span>
+                  <a href="index.html#about">Dhruv Jangda</a>
+                </li>
+                <li>
+                  <span class="ion-pricetag"></span>
+                  <a href="#">S&P500 Quantitative Model</a>
+                </li>
+              </ul>
+            </div>
+            <div class="article-content">
+              <p>Analysis and Quantitative modeling of S&P 500:</p>
+              <ol>
+                <li>Creating Volatility Index</li>
+                <li>Identifying trading pairs using indicators:
+                  <ul>
+                    <li>DI - Directional Indicators</li>
+                    <li>RSI - Relative Strength Index</li>
+                    <li>Moving Averages</li>
+                    <li>Volume Indicators</li>
+                  </ul>
+                </li>
+                <li>Close price being high/low Classifier model using machine learning and classification techniques.
+                </li>
+              </ol></br>
+              <h3>Volatility Index</h3>
+              <h5>Approach</h5>
+              <p>
+                Given OHLC data of S&amp;P 500 for all 500 securities, following steps are taken to create its weekly
+                volatility index:
+              </p>
+              <ol>
+                <li>Separating ticker-wise data from the given data and arranging each ticker data in order of date.
+                </li>
+                <li>
+                  <p>For each ticker data, calculating daily returns as:</p>
+                  <p>$return_{daily}=\frac{price_{close}}{price_{open}} - 1$</p>
+                </li>
+                <li>Creating a table to store weekly information that will act as basis for index calculation.</li>
+                <li>Getting last trading day of each week and number of trading days in the week across the period
+                  provided in the given data. Saving the same in the table created above.</li>
+                <li>Getting other information for each day as saved in above table from given data as:
+                  <ul>
+                    <li>Close Price</li>
+                    <li>Open Price</li>
+                    <li>Weekly returns in same fashion as daily returns calculated above.</li>
+                  </ul>
+                </li>
+                <li>
+                  <p>Calculating weekly volatility with daily return for all trading days $t$ as:</p>
+                  <p>$volatility_{week}=\sigma(return_{daily})\times\sqrt{t}$</p>
+                </li>
+                <li>
+                  <p>Calculating variable weekly volatility with weekly return till the last weekday as:</p>
+                  <p>$\overline{volatility_{week}}=volatility_{week}\times\sigma(return_{week})$</p>
+                  <p><em>Note</em> – The steps 3 and 4 are followed for every ticker</p>
+                </li>
+                <li>Creating tables to store most and least volatile stocks for a week.</li>
+                <li>For each last trading date of week:
+                  <ul>
+                    <li>Collecting all information as gathered in above steps for each ticker.</li>
+                    <li>Arranging in ascending order of weekly volatility and saving data of top 10 securities to
+                      the table for the least volatile stocks.</li>
+                    <li>Arranging in descending order of weekly volatility and saving data of top 10 securities to
+                      the table for the least volatile stocks.</li>
+                    <li>Updating both tables for each last trading date.</li>
+                  </ul>
+                </li>
+                <li>Saving the results to project directory.</li>
+              </ol>
+              <h5>Observations</h5>
+              <ol>
+                <li>Most Volatile
+                  <ul>
+                    <li>Securities that occurred more than 50 times are : <em>CHK</em>, <em>INCY</em>, <em>AMD</em>,
+                      <em>FCX</em>
+                    </li>
+                    <li>There are 95 Securities that appeared just once.</li>
+                  </ul>
+                </li>
+                <li>Least Volatile
+                  <ul>
+                    <li>Securities that occurred more than 20, but less than 30 times : <em>PG</em>, <em>PEP</em>,
+                      <em>MON</em>,
+                      <em>TMK</em>, <em>KO</em>
+                    </li>
+                    <li>here are 64 Securities that appeared just once.</li>
+                  </ul>
+                </li>
+                <li>There are 334 securities that were present in both lists.</li>
+                <li>There are 110 securities that appeared less than 10 times in the list of most volatile and were
+                  almost equally in the other list.</li>
+              </ol>
+              <h5>Conclusion</h5>
+              <ol>
+                <li>The 110 securities as in #2 due to being there very few times in both the lists may be low risk
+                  investment options, yet providing returns and can be thought of long term investments.</li>
+                <li>The 334 securities as in #2 may appear as an investment option that pose a balance between risk and
+                  returns.</li>
+                <li>Other technical indicators can also be incorporated to make a better form of index.</li>
+              </ol></br>
+              <h3>Exploratory Data Analysis</h3>
+              <h5>AAL - American Airlines Group</h5>
+              <ol>
+                <li>Across whole period close price for next day has gone up and down with respect to previous day,
+                  equally i.e. 629.</li>
+                <li>
+                  <p>Indicators for period – July 1, 2014 to January 30, 2015:</p>
+                  <ul>
+                    <li>
+                      <p>The candle sticks for the period: </p>
+                      <div><img src=".\img\candle-sticks.png" alt="Candle Sticks of AAL">
+                      </div>
+                      <p>A simple line drawn shows that it has been an upward trend till the last date of the
+                        period.</p>
+                    </li>
+                    <li>
+                      <p>Chaikin Indicator for the period: </p>
+                      <div><img src=".\img\volume-price-analysis.png" alt="Accumulation Distribution of AAL "></div>
+                      <ul>
+                        <li>Above graph shows indicator value about accumulation-distribution line.</li>
+                        <li>Value above the line implies accumulation of shares by market players thereby
+                          causing rise in stock’s price and vice-versa for distribution.</li>
+                        <li>It can be estimated that as indicator value goes to positive, stock price moves up
+                          and vice-versa.</li>
+                        <li>Also, a change from positive to negative or vice-versa in the indicator’s value
+                          implies a change in trend of stock price.</li>
+                      </ul>
+                    </li></br>
+                    <li>
+                      <p>Trend Analysis for the period:</p>
+                      <div><img src=".\img\trend-analysis.png" alt="Directional Indicator of AAL">
+                      </div>
+                      <ul>
+                        <li>The above graph shows trend factors as DI(Directional Indicator), one that
+                          determines change in trend and ADX(Average Direction Index) that determines the
+                          strength of a trend.</li>
+                        <li>The change in the value of DI implies a change in trend and a better value of ADX
+                          implies the strength of the change. Generally, a value of above 40 in ADX is
+                          considered a trend.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li></br>
+                <li>Analysis for period – December 1, 2014 to January 2, 2015:
+                  <ul>
+                    <li>Chaikin Indicator states that from 1/12/2014 to 1/1/2015 the value is positive thereby
+                      implying an uptrend.</li>
+                    <li>The same can be confirmed with DI value.</li>
+                    <li>But since ADX value ranges as 45-60, shows the uptrend is definite.</li>
+                    <li>Close price at 1/12/2014 is <em>47.88</em> and at 2/1/2015 is <em>53.91</em> hence,
+                      confirming accuracy of the analysis.</li>
+                    <li>Similar analysis can be carried out for other periods. But to have better trading decisions,
+                      other factors can also be taken into account to confirm the analysis.</li>
+                  </ul>
+                </li>
+              </ol></br>
+              <h3>Pair Trading</h3>
+              <h5>Approach</h5>
+              <p>Given price data of S&P 500 for all 500 securities, following steps are taken to create pair trading
+                strategy:</p>
+              <ol>
+                <li>Separating ticker-wise data from the given data and arranging each ticker data in order of date.
+                </li>
+                <li>
+                  <p>For each year:</p>
+                  <ul>
+                    <li>Create two square matrices of size $n_{tickers}\times n_{tickers}$ , one for storing variance
+                      values and the
+                      other for storing correlation values for tickers with respect to one another.</li>
+                    <li>
+                      <p>For each ticker:</p>
+                      <ul>
+                        <li>Set base data as first ticker data for that year.</li>
+                        <li>Traverse next ticker till last ticker.</li>
+                        <li>Set current data as current ticker data.</li>
+                        <li>Select data at common dates of both ticker data.</li>
+                        <li>
+                          <p>Assuming list of close prices $X$ and $Y$, with corresponding elements as $x$ and
+                            $y$, calculate:</p>
+                          <ul>
+                            <li>
+                              <p>Variation in difference of close prices of both tickers:</p>
+                              <p>$\sqrt{\frac{1}{n}\times\sum_{i=1}^n((x-y)_i - (\overline{X-Y})^2}$</p>
+                              <p>where $X$ is <em>base price</em> and $Y$ is <em>current price</em></p>
+                            </li>
+                            <li>
+                              <p>Correlation coefficient of close prices of both tickers:</p>
+                              <p>
+                                $\frac{\sum_{i=1}^n(x_i-\overline{X})\times(y_i-\overline{Y})}{\sqrt{[\sum_{i=1}^n(x_i-\overline{X})^2]\times[\sum_{i=1}^n(y_i-\overline{Y})^2]}}$
+                              </p>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>Store the calculated values in the corresponding matrices.</li>
+                        <li>
+                          <p>Calculate final score as element-wise product of both matrices.</p>
+                          <p><em>Note</em> – In order to avoid repetition in calculation, the matrices will be
+                            of triangular(upper or lower) form</p>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>Save the matrices for each year.</li>
+                <li>Create tables to store top and bottom scores for each year.</li>
+                <li>For each year:
+                  <ul>
+                    <li>Get corresponding matrix for the final score.</li>
+                    <li>Arrange the scores in ascending order for bottom scores and descending for top scores.</li>
+                    <li>For each score after ordering, locate the index in the matrix to know the ticker pair for
+                      the score.</li>
+                    <li>Using the index, get variance and correlation values from corresponding matrices for both
+                      the orders.</li>
+                    <li>Store the values(year, tickers, variance, correlation, similarity score) in the
+                      corresponding table for each order.</li>
+                  </ul>
+                </li>
+              </ol>
+              <h5>Observations</h5>
+              <ol>
+                <li>All the pairs were different as most and least varying throughout the period 2013-2018.</li>
+                <li>Pair <em>A-AMZN</em> was among least varying in years 2014, 2016 and 2017 but was the most varying
+                  in the year 2015.</li>
+                <li>Year 2017 topped the list of most varying pairs, with <em>CMG</em> varying the most with
+                  <em>BLK</em>, <em>BIIB</em> and <em>BK</em>.
+                </li>
+                <li><em>A</em> was present in the most varying list for years 2014-2017 at most twice with <em>AZO</em>,
+                  <em>AMZN</em> and <em>AGN</em>.
+                </li>
+                <li>Pair <em>A-AZO</em> was present in most varying pairs during years 2014, 2015 and 2017.</li>
+              </ol></br>
+              <h3>Quantitative Classifier</h3>
+              <h5>Approach</h5>
+              <p>Given a ticker, its price history data, following steps are taken to create a classifier that predicts
+                if the close price for a given date is either higher or lower than the open of the day:</p>
+              <ol>
+                <li>
+                  <p>Feature Engineering:</p>
+                  <ul>
+                    <li>Known factors from given data – <em>Date</em>, <em>Volume</em>, <em>Open</em>,
+                      <em>High</em>, <em>Low</em> and <em>Close</em>.
+                    </li>
+                    <li>
+                      <p>Using OHLC data, factors that emphasis analysis on <em>volume movement</em>, <em>trend
+                          movement</em>, its <em>strength</em>, <em>price movement</em> and <em>price
+                          levels</em> can be calculated by taking $O$ as $price_{open}$, $H$ as
+                        $price_{high}$, $L$ as $price_{low}$ and $C$ as $price_{close}$.</p>
+                      <ul>
+                        <li>
+                          <p><u>Candle Stick</u> factors:</p>
+                          <p>$size = C - O$</p>
+                          <p>$shadow_{upper} = H - C$</p>
+                          <p>$shadow_{lower} = O - L$</p>
+                          <p>However, these factors are kept positive but with change of sign the reference
+                            will change. That’s why they are calculated here as above</p>
+                        </li>
+                        <li>
+                          <p><u>Price Boundary</u> factors:</p>
+                          <ul>
+                            <li>
+                              <p>Pivot</p>
+                              <p>$pivot=\frac{O+H+L+C}{4}$</p>
+                            </li>
+                            <li>
+                              <p>Support Levels</p>
+                              <p>$support_1 = 2\times pivot-H$</p>
+                              <p>$support_2 = pivot-(H-L)</p>
+                              <p>$support_3 = price_-2\times(H-pivot)$</p>
+                            </li>
+                            <li>
+                              <p>Resistance Levels</p>
+                              <p>$resistance_1 = 2\times pivot-L$</p>
+                              <p>$resistance_2 = pivot+(H-L)$</p>
+                              <p>$resistance_3 = H+2\times(pivot-L)$</p>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <p><u>Trend Indicators</u>:</p>
+                          <ul>
+                            <li>
+                              <p>RSI - Relative Strength Index for $d$ days in a period:</p>
+                              <p>$\triangle_{price} = C-O$</p>
+                              <p>Strength($\gamma$) for period $p$: $\gamma_p = -1\times
+                                \frac{\sum_{i=1}^d\triangle_{price}(+)}{\sum_{i=1}^d\triangle_{price}(-)}$
+                              </p>
+                              <p>$RSI = 100 - \frac{100}{1+\gamma_p}$</p>
+                            </li>
+                            <li>
+                              <p>DI - Directional Indicator</p>
+                              <p>$move_{up} = H_{next} - H_{current}$</p>
+                              <p>$move_{down} = L_{current} - L_{next}$</p>
+                              <ul>
+                                <li>when $move_{up} &gt; move_{down}$ and $move_{up} &gt; 0$ =&gt;
+                                  $DM(+) = move_{up}$</li>
+                                <li>
+                                  <p>when $move_{up} &lt; move_{down}$ and $move_{down} &gt; 0$ =&gt;
+                                    $DM(-) = move_{down}$</p>
+                                  <p>True Range: $TR = \max[(H-L),(H-C),(L-C)]$</p>
+                                </li>
+                                <li>
+                                  <p>Smoothening($\sigma$) the factors $TR$, $DM(+)$ and $DM(-)$
+                                    across $d$ days in a period and $p$ days in the last period for
+                                    a factor $f$ to form $ATR$, $smooth(+DM)$ and
+                                    $smooth(-DM)$ where:</p>
+                                  <p>Smoothen factor $f$ for a period of $d$ days:
+                                    $\sigma(f,d)=\frac{\sigma(f_{previous})+(d\times
+                                    f_{current})}{d}$</p>
+                                  <p>First value of $\sigma$: $\sigma_1=\overline{f}_{p}$</p>
+                                  <p>$\pm DI=100\times\frac{\sigma(\pm DM)}{ATR}$</p>
+                                  <p>where $f_{previous}$ and $f_{current}$ are the values of factors
+                                    at previous period and current period respectively.</p>
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              <p>ADX - Average Directional Index for period of $d$ days</p>
+                              <p>$DX=100\times \frac{\mid DI(+)-DI(-)\mid}{DI(+)+DI(-)}$</p>
+                              <p>$ADX=\sigma(DX,d)$</p>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <p><u>Average Indicators</u>:</p>
+                          <ul>
+                            <li>
+                              <p>EMA - Exponential Moving Average for period of $d$ days:</p>
+                              <p>Weight: $w =\frac{2}{d+1}$</p>
+                              <p>First value of EMA: $EMA_1=\overline{C_d}$</p>
+                              <p>$EMA_i=(w\times C) + (1-w)\times EMA_{i-1}$</p>
+                            </li>
+                            <li>
+                              <p>EMA Convergence-Divergence depicting <em>mid</em> and <em>short</em> for
+                                periods where days($d$) $d_mid &gt; d_short$ : $EMA_{mid}-EMA_{short}$
+                              </p>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <p><u>Volume Indicators</u></p>
+                          <ul>
+                            <li>
+                              <p>OBV - On Balance Volume, for $V$ as trading volume taken for the day for
+                                $C_{current}$ or $C_{prev}$ whichever is maximum.</p>
+                              <p>$OBV_1=C$</p>
+                              <p>$OBV_i=OBV_{i-1}\pm V$</p>
+                            </li>
+                            <li>
+                              <p>CVI - Chaikin Volume Indicator for period of $d$ days:</p>
+                              <p>Money Flow Multiplier: $MFM=\frac{(C-L)-(H-C)}{H-L}$</p>
+                              <p>Money Flow Volume: $MFV=MFM\times V$</p>
+                              <p>$CVI_d=\frac{\sum_{i=1}^dMFV}{\sum_{i=1}^dV}$</p>
+                              <p><em>Note</em> - Calculations have been carried out on span of short-term
+                                of 4 days and mid-term of 14 days.</p>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>Splitiing the dateset to Train and Test dataset.</li>
+                <li>Preparing parameter grid for Grid Search Cross Validation.</li>
+                <li>Using different estimators or multiple estimators using ensembled learning, performing the Grid
+                  Search CV.</li>
+                <li>Evaluating the performance of best estimator on Train and Test data using metrics:
+                  <ul>
+                    <li>Precision</li>
+                    <li>Recall</li>
+                  </ul>
+                </li>
+                <li>Tuning the hyperparameters unless expected performance of the model.</li>
+                <li>Saving the model for future use.</li>
+              </ol></br>
+              <h5>Findings</h5>
+              <p>On random 10 instances, the final model performed as:</p>
+              <table class="display-table">
+                <thead>
+                  <tr>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Actual</th>
+                    <th style="text-align:center">Predicted</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align:center">23-01-2018</td>
+                    <td style="text-align:center">1</td>
+                    <td style="text-align:center">1</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">17-05-2017</td>
+                    <td style="text-align:center">1</td>
+                    <td style="text-align:center">0</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">14-08-2017</td>
+                    <td style="text-align:center">0</td>
+                    <td style="text-align:center">0</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">15-09-2017</td>
+                    <td style="text-align:center">0</td>
+                    <td style="text-align:center">0</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">22-11-2017</td>
+                    <td style="text-align:center">0</td>
+                    <td style="text-align:center">0</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">05-12-2017</td>
+                    <td style="text-align:center">1</td>
+                    <td style="text-align:center">1</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">22-12-2016</td>
+                    <td style="text-align:center">0</td>
+                    <td style="text-align:center">1</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">05-12-2016</td>
+                    <td style="text-align:center">1</td>
+                    <td style="text-align:center">1</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">24-01-2017</td>
+                    <td style="text-align:center">1</td>
+                    <td style="text-align:center">1</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">20-09-2016</td>
+                    <td style="text-align:center">0</td>
+                    <td style="text-align:center">0</td>
+                  </tr>
+                </tbody>
+              </table></br>
+              <h6>Confusion Matrix:</h6>
+              <table class="display-table">
+                <thead>
+                  <tr>
+                    <th style="text-align:center"></th>
+                    <th style="text-align:center">Predicted(+): $\hat{y}$</th>
+                    <th style="text-align:center">Predicted(-): $\hat{\overline{y}}$</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align:center">True(+): $y$</td>
+                    <td style="text-align:center">4 (TP)</td>
+                    <td style="text-align:center">1 (FN)</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center">True(-): $\overline{y}$</td>
+                    <td style="text-align:center">1 (FP)</td>
+                    <td style="text-align:center">4 (TN)</td>
+                  </tr>
+                </tbody>
+              </table>
+              <ul>
+                <li>Precision = $\frac{TP}{TP+FP}$ = 4/5 = 80 %</li>
+                <li>Recall = $\frac{TP}{TP+FN}$ = 4/5 = 80%</li>
+              </ul>
+              <p>The random samples taken are very less and it makes more sense to capture the model behavious across
+                periods. Across periods i.e yearly, semi-annually, etc., the model is able to capture the trends very
+                well and gave the following results:</p>
+              <ul>
+                <li>Precision = 97 %</li>
+                <li>Recall = 95 %</li>
+                <li>Accuracy = 98 %</li>
+              </ul>
+              <h5>Conclusion</h5>
+              <ol>
+                <li>Feature engineering always require an exhaustive research or a domain expertise and is a challenge
+                  in every machine learning pipeline.</li>
+                <li>For every test date it is required to make the model again, since it saves the model from :
+                  <ul>
+                    <li><u>Look-Ahead bias</u> - A model trained till the test date is used for prediction on a
+                      new test date <u>prior</u> to the previous one.</li>
+                    <li><u>Underfitting</u> - A model trained till the test date is used for prediction on a new
+                      test date <u>later</u> to the previous one.</li>
+                  </ul>
+                </li>
+              </ol>
+              <div class="service-box">
+                <div class="service-ico">
+                  <a href="https://github.com/Dhruv-Jangda/Stock-Analysis" class="ico-circle"><i
+                      class="ion-social-github"></i></a>
+                </div>
+                <div class="service-content">
+                  <center>
+                    <h5>Private Repo</h5>
+                  </center>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-comments">
+            <div class="title-box-2">
+              <h3 class="title-left">
+                Leave a Reply
+              </h3>
+            </div>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"
+              onload="if(submitted) {window.location='.';}"></iframe>
+            <form
+              action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdMLR2-l5T4j8UNIoulRybRCxaHkyHZnASIG1NxwnVI5OOPrg/formResponse"
+              method="post" target="hidden_iframe" class="form-mf" onsubmit="showMsg()">
+              <div id="sendmessage">Your message has been sent. Thank you!</div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <input type="text" name="entry.564991570" class="form-control input-mf" id="inputName"
+                      data-rule="minlen:4" placeholder="Name *" required>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <input type="email" name="entry.1225016317" class="form-control input-mf" id="inputEmail1"
+                      data-rule="email" placeholder="Email *" required>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <input type="text" name="entry.895992958" class="form-control input-mf" id="subject"
+                      placeholder="Subject *" data-rule="minlen:4" data-msg="Please mention the article" required>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <textarea id="textMessage" name="entry.906501991" class="form-control input-mf"
+                      placeholder="Message *" cols="45" rows="8" required></textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <button type="submit" class="button button-a button-big button-rouded">Send Message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="widget-sidebar">
+            <h5 class="sidebar-title">Recent Post</h5>
+            <div class="sidebar-content">
+              <ul class="list-sidebar">
+                <li>
+                  <a href="loan-approval.html">Loan Approval</a>
+                </li>
+                <li>
+                  <a href="regression.html">Regression Analysis</a>
+                </li>
+                <li>
+                  <a href="doc-classification.html">Document Classification</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="widget-sidebar">
+            <h5 class="sidebar-title">Archives</h5>
+            <div class="sidebar-content">
+              <ul class="list-sidebar">
+                <li>
+                  <a href="ml-algos.html">MLAlgos ANN</a>
+                </li>
+                <li>
+                  <a href="sp500-classifier.html">S&P 500 Classifier</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="widget-sidebar widget-tags">
+            <h5 class="sidebar-title">Tags</h5>
+            <div class="sidebar-content">
+              <ul>
+                <li>
+                  <a href="https://www.investopedia.com/terms/s/sp500.asp">S&P 500</a>
+                </li>
+                <li>
+                  <a href="https://zerodha.com/varsity/chapter/pair-trading-basics/">Pair Trading</a>
+                </li>
+                <li>
+                  <a href="https://www.investopedia.com/terms/t/technicalindicator.asp">Technical Indicators</a>
+                </li>
+                <li>
+                  <a href="https://en.wikipedia.org/wiki/Time_series">Time Series</a>
+                </li>
+                <li>
+                  <a href="https://towardsdatascience.com/exploratory-data-analysis-8fc1cb20fd15">Exploratory Data Analysis</a>
+                </li>
+                <li>
+                  <a href="https://www.investopedia.com/terms/r/rsi.asp">Relative Strength Index</a>
+                </li>
+                <li>
+                  <a href="https://www.investopedia.com/terms/o/onbalancevolume.asp">On Balance Volume</a>
+                </li>
+                <li>
+                  <a href="https://www.investopedia.com/articles/active-trading/031914/understanding-chaikin-oscillator.asp">Chaikin Indicator</a>
+                </li>
+                <li>
+                  <a href="https://zerodha.com/varsity/chapter/support-resistance/">Support Resistance Levels</a>
+                </li>
+                <li>
+                  <a href="log-regression.html">Binary Classification</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Section Blog-Single End /-->
+
+  <!--/ Section Contact-Footer Star /-->
+  <section class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url(img/overlay-bg.jpg)">
+    <div class="overlay-mf"></div>
+    section>
+    <!--/ Section Contact-footer End /-->
+
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    <div id="preloader"></div>
+
+    <!-- JavaScript Libraries -->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/jquery/jquery-migrate.min.js"></script>
+    <script src="lib/popper/popper.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/counterup/jquery.waypoints.min.js"></script>
+    <script src="lib/counterup/jquery.counterup.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/typed/typed.min.js"></script>
+    <!-- Contact Form JavaScript File -->
+    <script src="contactform/contactform.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+
+    <!-- Template Main Javascript File -->
+    <script src="js/main.js"></script>
+
+    <!-- Load mathjax -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe"> </script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                }
+            });
+        
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+    </script>
+    <!-- End of mathjax configuration -->
+    <script>
+      function showMsg() {
+        $("#sendmessage").toggleClass("show");
+        window.setTimeout(function () { $("#sendmessage").removeClass("show") }, 3000);
+      }
+    </script>
+</body>
+
+</html>
