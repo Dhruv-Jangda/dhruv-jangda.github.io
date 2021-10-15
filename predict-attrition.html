@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Loan Approval</title>
+  <title>Predict Attrition</title>
   <meta name="viewport"content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="loan defaults, credit risk assessment, classification, precision, recall, confusion matrix, machine learning">
-  <meta name="description" content="An algortihm to provide real time prediction of loan status to be approved for an applicant thereby
-  preventing cases that are probable to get defaulted.">
+  <meta name="keywords" content="mxnet, dask, classification, deep learning, distributed deep learning, imperative style model, symbolic style model">
+  <meta name="description" content="A simple deep learning project pipelined as data loading and pre-processing using Dask, Model preparation using MXNet and model evaluation visualization using Tensorboard">
 
   <!-- Favicons -->
   <link href="img/favicon.png" rel="icon">
@@ -66,7 +65,7 @@
     <div class="intro-content display-table">
       <div class="table-cell">
         <div class="container">
-          <h2 class="intro-title mb-4">Loan Approval</h2>
+          <h2 class="intro-title mb-4">Predict Attrition</h2>
         </div>
       </div>
     </div>
@@ -80,10 +79,10 @@
         <div class="col-md-8">
           <div class="post-box">
             <div class="post-thumb">
-              <img src="img/post-1.jpg" class="img-fluid" alt="">
+              <img src="img/post-7.png" class="img-fluid" alt="">
             </div>
             <div class="post-meta">
-              <h1 class="article-title">Credit Risk Assessment Model</h1>
+              <h1 class="article-title">Prediction of Employee Attrition</h1>
               <ul>
                 <li>
                   <span class="ion-ios-person"></span>
@@ -91,77 +90,53 @@
                 </li>
                 <li>
                   <span class="ion-pricetag"></span>
-                  <a href="#">Credit Risk Assessment</a>
+                  <a href="#">Attrition Prediction</a>
                 </li>
               </ul>
             </div>
             <div class="article-content">
-              <p>
-                Design an algortihm to provide real time prediction of loan status to be approved for an applicant thereby
-                preventing cases that are probable to get defaulted.
-              </p></br>
-              <h3>Analysis</h3>
+              <p>A simple deep learning project pipelined as:</p>
               <ul>
-                <li>Classic binary classification problem.</li>
-                <li>Emphasis is on:<ul>
-                    <li>Accuracy - We need to have the best possible accuracy</li>
-                    <li>Precision - We need to avoid cases where the algorithm mis-classifies some of the cases where loan was
-                      not approved i.e. False Positives.</li>
-                  </ul>
-                </li>
+                <li>Data loading and preprocessing done in <u><a href="https://dask.org/">Dask</a></u>.</li>
+                <li>Model preparation and training done in <u><a href="https://mxnet.apache.org/versions/1.8.0/">Mxnet</a></u>.</li>
+                <li>Training metric and model layer parameters visualization done in Tensorboard via Mxboard.</li>
               </ul></br>
-              <h3>Alternate Emphasis</h3>
-              <p>As per <em>Confusion Matrix</em> for a Binary Classification problem:</p>
+              <h3>Properties</h3>
               <ul>
-                <li>Precision = $\frac{TP}{TP+FP}$</li>
-                <li>Recall = $\frac{TP}{TP+FN}$</li>
-                <li>Accuracy = $\frac{TP+TN}{TP+FP+FN+TN}$</li>
-              </ul>
-              <p>where:</p>
-              <ul>
-                <li>TP - True Positive</li>
-                <li>FP - False Positive</li>
-                <li>FN - False Negative</li>
-                <li>TN - True Negative</li>
-              </ul>              
-              <p>
-                In the given problem, we require to emphasize more on saving the losses to be beared without compromising on
-                potential customers to lend them the loan. In other words, we need to emphasize more on FP without compromising
-                FN.
-              </p>
-              <p>
-                Ideally when FP and FN both reduce the <em>Accuracy</em> will eventually increase. Hence, along with
-                considering <em>Precision</em> as one of the metric, rather than considering <em>Accuracy</em> as another we can
-                give more importance to <em>Recall</em>. Combining both <em>Precision</em> and <em>Recall</em> we have
-                <em>F-Score</em>:
-              </p>
-              <ul>
-                <li>F-Score = $\frac{(1+\beta^2)\times Precision \times Recall}{\beta^2 \times Precision + Recall}$</li>
-              </ul>
-              <p>
-                To put more emphasis on <em>Precision</em> we need to keep $\beta&lt;1$. So, it would make more sense to tune
-                our algorithm based on this score.
-              </p></br>
-              <h3>Solution</h3>
-              <ul>
-                <li>Data Preprocessing:<ul>
-                    <li>Removing or Imputing Nulls</li>
-                    <li>Removing Outliers</li>
-                    <li>Labelling categorical features</li>
+                <li><u>Scalable</u> due to:
+                  <ul>
+                    <li>Hyperparameter and other configurations independent from project framework.</li>
+                    <li>All pipelines i.e. loading data, pre-processing data and model training independent of each other.</li>
                   </ul>
                 </li>
-                <li>Data distribution to Train and Test sets</li>
-                <li>Build and Train a Classifier.</li>
-                <li>Tune its hyperparameters over $F_\beta$ using Cross-Validation technique. This may involve
-                  trying different classification models or may be combining some in an Ensembled learning format.</li>
-                <li>Finally test it and try indulge some regularization to reduce Variance and Bias.</li>
+                <li><u>Ease of tuning</u> - Most of the hyperparameters are provided in the config.yaml file, thereby making model tuning easy.</li>
+                <li><u>Multiple modes</u> - Supports both <em>Imperative</em> and <em>Symbolic</em> mode of Mxnet modelling and training.</li>
+              </ul></br>
+              <h3>Using Project</h3>
+              <ul>
+                <li>Setup python 3.6 environment with the following packages:</li>
+                <ul>
+                  <li>Mxnet - The project supports CPU version as only.</li>
+                  <li>Dask</li>
+                  <li>Dask-Dataframe</li>
+                  <li>Mxboard</li>
+                  <li>Tensorboard</li>
+                </ul>
+                <li>Clone the repository.</li>
+                <li>Double click setup.py to make supporting directories.</li>
+                <li>Double click attrition.py to run the project.</li>
+              </ul></br>
+              <h3>Future Releases</h3>
+              <ul>
+                <li>Support for <u>Mxnet GPU</u> version.</li>
+                <li>Support for <u>Distributed Deep Learning</u>. Though the data is handled in a distrbuted fashion as supported by Dask, but due to <em>symbolic</em> or <em>imperative</em> mode of training, the data has to be accumulated in memory for further processing.</li>
               </ul>
               <div class="service-box">
                 <div class="service-ico">
-                  <a href="https://github.com/Dhruv-Jangda/NotebooksDS/blob/main/Credit_Risk_Assesment.ipynb" class="ico-circle"><i class="ion-social-github"></i></a>
+                  <a href="https://github.com/Dhruv-Jangda/PredictAttrition" class="ico-circle"><i class="ion-social-github"></i></a>
                 </div>
                 <div class="service-content">
-                  <center><h5>More Details</h5></center>
+                  <center><h4>More Details</h4></center>
                 </div>
               </div>
             </div>
@@ -245,25 +220,22 @@
             <div class="sidebar-content">
               <ul>
                 <li>
-                  <a href="https://www.investopedia.com/terms/d/default2.asp">Loan Default</a>
+                  <a href="https://mxnet.apache.org/versions/1.8.0/">MXNet</a>
                 </li>
                 <li>
-                  <a href="https://www.investopedia.com/terms/c/creditrisk.asp">Credit Risk Assessment</a>
+                  <a href="https://dask.org/">Dask</a>
                 </li>
                 <li>
-                  <a href="https://www.analyticsvidhya.com/blog/2021/09/a-complete-guide-to-understand-classification-in-machine-learning/">Classification</a>
+                  <a href="https://machinelearningmastery.com/what-is-deep-learning/">Deep Learning</a>
                 </li>
                 <li>
-                  <a href="https://towardsdatascience.com/performance-metrics-confusion-matrix-precision-recall-and-f1-score-a8fe076a2262">Precision</a>
+                  <a href="https://towardsdatascience.com/distributed-deep-learning-101-introduction-ebfc1bcd59d9">Distributed Deep Learning</a>
                 </li>
                 <li>
-                  <a href="https://towardsdatascience.com/performance-metrics-confusion-matrix-precision-recall-and-f1-score-a8fe076a2262">Recall</a>
+                  <a href="https://mxnet.apache.org/versions/1.8.0/api/architecture/program_model">Imperative Style Model</a>
                 </li>
                 <li>
-                  <a href="https://machinelearningmastery.com/confusion-matrix-machine-learning/">Confusion Matrix</a>
-                </li>
-                <li>
-                  <a href="https://en.wikipedia.org/wiki/Machine_learning">Machine Learning</a>
+                  <a href="https://mxnet.apache.org/versions/1.8.0/api/architecture/program_model">Symbolic Style Model</a>
                 </li>
               </ul>
             </div>
